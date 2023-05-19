@@ -2,6 +2,19 @@
 require_once 'db_connect.php';
 require_once 'search_student.php';
 require_once 'add_student.php';
+
+// Số dòng dữ liệu hiển thị trên mỗi trang
+$rowsPerPage = 10;
+
+// Tính tổng số trang dựa trên số lượng sinh viên và số dòng dữ liệu trên mỗi trang
+$totalPages = ceil(count($students) / $rowsPerPage);
+
+// Xác định trang hiện tại
+$currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
+
+// Tính chỉ số bắt đầu và kết thúc của dòng dữ liệu trên trang hiện tại
+$startIndex = ($currentPage - 1) * $rowsPerPage;
+$endIndex = $startIndex + $rowsPerPage - 1;
 ?>
 
 <!DOCTYPE html>
@@ -56,7 +69,7 @@ require_once 'add_student.php';
                 </button>
             </div>
         </div>
-        <table>
+        <!-- <table>
             <tr>
                 <th class="text-center">ID</th>
                 <th class="text-center">Mã SV</th>
@@ -76,7 +89,43 @@ require_once 'add_student.php';
                     </td>
                 </tr>
             <?php } ?>
+        </table> -->
+        <table>
+            <tr>
+                <th class="text-center">ID</th>
+                <th class="text-center">Mã SV</th>
+                <th class="text-center">Họ tên</th>
+                <th class="text-center">Lớp</th>
+                <th class="text-center">Thao tác</th>
+            </tr>
+            <?php
+            // Hiển thị dòng dữ liệu trên trang hiện tại
+            for ($i = $startIndex; $i <= $endIndex; $i++) {
+                if ($i >= count($students)) {
+                    break;
+                }
+                $student = $students[$i];
+            ?>
+                <tr>
+                    <td><?= $student['id'] ?></td>
+                    <td><?= $student['masv'] ?></td>
+                    <td><?= $student['hoten'] ?></td>
+                    <td><?= $student['lop'] ?></td>
+                    <td>
+                        <a href="edit_student.php?id=<?= $student['id'] ?>" class="btn btn-info">Sửa</a>
+                        <a href="delete_student.php?id=<?= $student['id'] ?>" class="btn btn-danger">Xoá</a>
+                    </td>
+                </tr>
+            <?php } ?>
         </table>
+        <!-- Hiển thị thanh phân trang -->
+        <ul class="pagination mt-3">
+            <?php for ($page = 1; $page <= $totalPages; $page++) { ?>
+                <li class="page-item <?php if ($page == $currentPage) echo 'active'; ?>">
+                    <a class="page-link" href="index.php?page=<?= $page ?>"><?= $page ?></a>
+                </li>
+            <?php } ?>
+        </ul>
 
     </div>
 
