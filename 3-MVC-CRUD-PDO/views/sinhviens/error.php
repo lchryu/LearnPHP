@@ -37,7 +37,7 @@
 <div class="error-container">
     <h2>Error</h2>
     <img src="../../assets/images/404_not_found.jpg" alt="404 Not Found">
-    <p><?php echo $errorMessage; ?></p>
+<!--    <p>--><?php //echo $errorMessage; ?><!--</p>-->
     <p class="instructions">Additional instructions or information can be placed here.</p>
 </div>
 </body>
