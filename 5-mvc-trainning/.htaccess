@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteRule product/lists/(.+) index.php?url=$1
+    
